@@ -2,9 +2,9 @@ const port = 3001;
 export const baseurl = `http://localhost:${port}`;
 
 // Generate a unique token for storing your bookshelf data on the backend server.
-let token = localStorage.token
+let token = localStorage.token;
 if (!token)
-    token = localStorage.token = Math.random().toString(36).substr(-8)
+    token = localStorage.token = Math.random().toString(36).substr(-8);
 
 const headers = {
     'Accept': 'application/json',
@@ -38,4 +38,20 @@ export function getInitialData() {
         categories,
         posts,
     }))
+}
+
+function saveVotePost(postId, vote) {
+    return fetch(`${baseurl}/posts/${postId}`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({option: vote}), // body data type must match "Content-Type" header
+    }).then((response) => response.json())
+}
+
+export function saveUpVotePost(postId) {
+    return saveVotePost(postId, "upVote")
+}
+
+export function saveDownVotePost(postId) {
+    return saveVotePost(postId, "downVote")
 }

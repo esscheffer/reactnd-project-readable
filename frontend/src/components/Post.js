@@ -14,24 +14,18 @@ import IconButton from "@material-ui/core/IconButton";
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDowjnIcon from '@material-ui/icons/ThumbDown';
+import {handleDownVotePost, handleUpVotePost} from "../actions/posts";
+import {connect} from "react-redux";
 
 const styles = {
     card: {
         minWidth: '80%',
     },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
     title: {
-        fontSize: 14,
+        textAlign: 'center'
     },
     actions: {
         display: 'flex',
-    },
-    pos: {
-        marginBottom: 12,
     },
     avatar: {
         backgroundColor: red[500],
@@ -43,6 +37,18 @@ const styles = {
 
 class Post extends Component {
     state = {};
+
+    handleUpVoteClick = (e) => {
+        e.preventDefault();
+        const {dispatch, post} = this.props;
+        dispatch(handleUpVotePost(post))
+    };
+
+    handleDownVoteClick = (e) => {
+        e.preventDefault();
+        const {dispatch, post} = this.props;
+        dispatch(handleDownVotePost(post))
+    };
 
     render() {
         const {classes, post} = this.props;
@@ -69,28 +75,27 @@ class Post extends Component {
                             title={post.author}
                             subheader={new Date(post.timestamp).toLocaleString()}
                         />
-                        <Typography variant="h5" component="h2">
+                        <Typography variant="h5" component="h2" className={classes.title}>
                             {post.title}
-                        </Typography>
-                        <Typography component="p">
-                            Coments: {post.commentCount}
                         </Typography>
                     </CardContent>
                     <CardActions className={classes.actions} disableActionSpacing>
-                        <IconButton>
+                        <IconButton onClick={this.handleUpVoteClick}>
                             <ThumbUpIcon/>
                         </IconButton>
 
                         {post.voteScore}
 
-                        <IconButton>
+                        <IconButton onClick={this.handleDownVoteClick}>
                             <ThumbDowjnIcon/>
                         </IconButton>
 
-                        <IconButton className={classes.cardActionRight}
-                                    aria-label="Show more">
-                            <ModeCommentIcon/>
-                        </IconButton>
+                        <div className={classes.cardActionRight}>
+                            {post.commentCount}
+                            <IconButton aria-label="Comments">
+                                <ModeCommentIcon/>
+                            </IconButton>
+                        </div>
                     </CardActions>
                 </Card>
             </Grid>
@@ -98,4 +103,10 @@ class Post extends Component {
     }
 }
 
-export default withStyles(styles)(Post);
+function mapStateToProps(_, {post}) {
+    return {
+        post
+    }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Post))
