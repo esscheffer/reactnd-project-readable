@@ -5,7 +5,7 @@ export default function categories(state = {}, action) {
         case SET_CATEGORIES:
             return {
                 ...state,
-                ...action.categories
+                categoriesList: action.categories
             };
         default:
             return state;

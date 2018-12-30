@@ -1,11 +1,20 @@
-import {SET_POSTS} from "../actions/posts";
+import {FETCHING_POSTS, SET_POSTS} from "../actions/posts";
 
-export default function posts(state = {}, action) {
+const INITIAL_STATE = {
+    postsList: {posts: [], loading: false}
+};
+
+export default function posts(state = INITIAL_STATE, action) {
     switch (action.type) {
         case SET_POSTS:
             return {
                 ...state,
-                ...action.posts
+                postsList: {posts: action.posts, loading: false}
+            };
+        case FETCHING_POSTS:
+            return {
+                ...state,
+                postsList: {posts: [], loading: true}
             };
         default:
             return state;
