@@ -55,3 +55,10 @@ export function saveUpVotePost(postId) {
 export function saveDownVotePost(postId) {
     return saveVotePost(postId, "downVote")
 }
+
+export function deletePostServer(postId) {
+    return fetch(`${baseurl}/posts/${postId}`, {
+        method: "DELETE",
+        headers,
+    }).then((response) => response.json())
+}

@@ -14,8 +14,10 @@ import IconButton from "@material-ui/core/IconButton";
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDowjnIcon from '@material-ui/icons/ThumbDown';
-import {handleDownVotePost, handleUpVotePost} from "../actions/posts";
+import {handleDeletePost, handleDownVotePost, handleUpVotePost} from "../actions/posts";
 import {connect} from "react-redux";
+import {confirmAlert} from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 
 const styles = {
     card: {
@@ -50,6 +52,26 @@ class Post extends Component {
         dispatch(handleDownVotePost(post))
     };
 
+    deleteButtonClick = () => {
+        confirmAlert({
+            title: 'Confirm delete',
+            message: 'Are you sure you want to delete this post?',
+            buttons: [
+                {
+                    label: 'Delete',
+                    onClick: () => {
+                        const {dispatch, post} = this.props;
+                        dispatch(handleDeletePost(post))
+                    }
+                },
+                {
+                    label: 'Cancel',
+                    onClick: () => {}
+                }
+            ]
+        })
+    };
+
     render() {
         const {classes, post} = this.props;
         return (
@@ -67,7 +89,7 @@ class Post extends Component {
                                     <IconButton>
                                         <EditIcon/>
                                     </IconButton>
-                                    <IconButton>
+                                    <IconButton onClick={this.deleteButtonClick}>
                                         <DeleteIcon/>
                                     </IconButton>
                                 </div>
