@@ -16,7 +16,7 @@ const styles = theme => ({
         padding: theme.spacing.unit * 2,
         marginTop: 20
     },
-    container: {
+    formClass: {
         width: '60%',
         display: 'flex',
         flexWrap: 'wrap',
@@ -25,6 +25,15 @@ const styles = theme => ({
         marginBottom: 20,
         width: '100%',
     },
+    button: {
+        margin: theme.spacing.unit
+    },
+    container: {
+        marginBottom: 20
+    },
+    buttonsDiv: {
+        textAlign: 'center'
+    }
 });
 
 class NewPost extends Component {
@@ -57,6 +66,8 @@ class NewPost extends Component {
         };
 
         dispatch(handleCreatePost(post));
+
+        this.props.handleClose();
     };
 
     render() {
@@ -67,9 +78,9 @@ class NewPost extends Component {
                   direction="column"
                   justify="space-between"
                   spacing={16}
-                  style={{width: '100%'}}
+                  className={classes.container}
                   alignItems="center">
-                <form className={classes.container} onSubmit={this.handleSubmit}>
+                <form className={classes.formClass} onSubmit={this.handleSubmit}>
                     <Paper className={classes.card}>
                         <Typography variant="h5" component="h3">
                             New Post
@@ -113,7 +124,7 @@ class NewPost extends Component {
                                     native: true,
                                 }}
                                 margin="normal">
-                                <option value=""  />
+                                <option value=""/>
                                 {categories.categoriesList.categories.map(category => (
                                     <option key={category.name} value={category.name}>
                                         {category.name}
@@ -122,9 +133,18 @@ class NewPost extends Component {
                             </TextField>
                             : null
                         }
-                        <Button variant="contained" color="primary" className={classes.button} type={'submit'}>
-                            Save
-                        </Button>
+                        <div className={classes.buttonsDiv}>
+                            <Button variant="contained" color="primary" className={classes.button} type={'submit'}>
+                                Save
+                            </Button>
+                            <Button variant="contained"
+                                    color="primary"
+                                    className={classes.button}
+                                    type={'button'}
+                                    onClick={this.props.handleClose}>
+                                Cancel
+                            </Button>
+                        </div>
                     </Paper>
                 </form>
             </Grid>

@@ -21,7 +21,6 @@ class App extends Component {
                 {this.props.loading === true
                     ? null
                     : <PostList />}
-                    {/*: <NewPost />}*/}
             </div>
         );
     }

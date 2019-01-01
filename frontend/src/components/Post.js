@@ -125,10 +125,4 @@ class Post extends Component {
     }
 }
 
-function mapStateToProps(_, {post}) {
-    return {
-        post
-    }
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(Post))
+export default connect()(withStyles(styles)(Post))

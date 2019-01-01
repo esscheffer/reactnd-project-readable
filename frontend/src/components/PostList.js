@@ -2,12 +2,50 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import Post from "./Post";
 import Grid from "@material-ui/core/Grid";
+import NewPost from "./NewPost";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from '@material-ui/icons/Add';
+import withStyles from "@material-ui/core/es/styles/withStyles";
+
+const styles = theme => ({
+    fab: {
+        margin: theme.spacing.unit,
+        width: '100%',
+        textAlign: 'center'
+    }
+});
 
 class PostList extends Component {
+    state = {
+        newPostFormOpen: false
+    };
+
+    openNewPostForm = event => {
+        event.preventDefault();
+        this.setState({newPostFormOpen: true});
+    };
+
+    closeNewPostForm = event => {
+        if (event) {
+            event.preventDefault();
+        }
+        this.setState({newPostFormOpen: false});
+    };
+
     render() {
+        const {classes} = this.props;
         return (
             <div>
                 <h3 style={{textAlign: 'center'}}>POSTS</h3>
+
+                {this.state.newPostFormOpen
+                    ? <NewPost handleClose={this.closeNewPostForm}/>
+                    : <div className={classes.fab}>
+                        <Fab color="primary" aria-label="Add" onClick={this.openNewPostForm}>
+                            <AddIcon/>
+                        </Fab>
+                    </div>
+                }
 
                 <Grid container
                       direction="column"
@@ -31,4 +69,4 @@ function mapStateToProps({posts}) {
     };
 }
 
-export default connect(mapStateToProps)(PostList)
+export default connect(mapStateToProps)(withStyles(styles)(PostList))
