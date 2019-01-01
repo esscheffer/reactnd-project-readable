@@ -62,3 +62,11 @@ export function deletePostServer(postId) {
         headers,
     }).then((response) => response.json())
 }
+
+export function createPostServer(post) {
+    return fetch(`${baseurl}/posts/`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(post),
+    }).then((response) => response.json())
+}

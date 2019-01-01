@@ -1,11 +1,11 @@
-import {deletePostServer, saveDownVotePost, saveUpVotePost} from "../utils/ApiUtils";
+import {createPostServer, deletePostServer, saveDownVotePost, saveUpVotePost} from "../utils/ApiUtils";
 
 export const SET_POSTS = 'SET_POSTS';
 export const FETCHING_POSTS = 'FETCHING_POSTS';
 export const UPVOTE_POST = 'UPVOTE_POST';
 export const DOWNVOTE_POST = 'DOWNVOTE_POST';
-export const DELETE_POST = 'DELETE_POST';
-export const CANCEL_DELETE_POST = 'CANCEL_DELETE_POST';
+export const ADD_POST = 'ADD_POST';
+export const REMOVE_POST = 'REMOVE_POST';
 
 export function setPosts(posts) {
     return {
@@ -34,16 +34,16 @@ function downVotePost(post) {
     }
 }
 
-function deletePost(post) {
+function removePost(post) {
     return {
-        type: DELETE_POST,
+        type: REMOVE_POST,
         postId: post.id
     }
 }
 
-function cancelDeletePost(post) {
+function addPost(post) {
     return {
-        type: CANCEL_DELETE_POST,
+        type: ADD_POST,
         post
     }
 }
@@ -76,13 +76,26 @@ export function handleDownVotePost(post) {
 
 export function handleDeletePost(post) {
     return (dispatch) => {
-        dispatch(deletePost(post));
+        dispatch(removePost(post));
 
         return deletePostServer(post.id)
             .catch((e) => {
                 console.warn('Error in handleDeletPost: ', e);
-                dispatch(cancelDeletePost(post));
+                dispatch(addPost(post));
                 alert('The was an error deleting the post. Try again.')
+            })
+    }
+}
+
+export function handleCreatePost(post) {
+    return (dispatch) => {
+        dispatch(addPost(post));
+
+        return createPostServer(post)
+            .catch((e) => {
+                console.warn('Error in handleCreatePost: ', e);
+                dispatch(removePost(post));
+                alert('The was an error creating the post. Try again.')
             })
     }
 }

@@ -1,4 +1,4 @@
-import {CANCEL_DELETE_POST, DELETE_POST, DOWNVOTE_POST, FETCHING_POSTS, SET_POSTS, UPVOTE_POST} from "../actions/posts";
+import {ADD_POST, DOWNVOTE_POST, FETCHING_POSTS, REMOVE_POST, SET_POSTS, UPVOTE_POST} from "../actions/posts";
 
 const INITIAL_STATE = {
     postsList: {posts: [], loading: false}
@@ -40,7 +40,7 @@ export default function posts(state = INITIAL_STATE, action) {
                     )
                 }
             };
-        case DELETE_POST:
+        case REMOVE_POST:
             return {
                 ...state,
                 postsList: {
@@ -48,7 +48,7 @@ export default function posts(state = INITIAL_STATE, action) {
                     posts: state.postsList.posts.filter((post) => post.id !== action.postId)
                 }
             };
-        case CANCEL_DELETE_POST:
+        case ADD_POST:
             let newArray = state.postsList.posts.slice();
             newArray.push(action.post);
             return {
