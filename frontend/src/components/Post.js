@@ -18,8 +18,9 @@ import {handleDeletePost, handleDownVotePost, handleUpVotePost} from "../actions
 import {connect} from "react-redux";
 import {confirmAlert} from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+import Chip from "@material-ui/core/Chip";
 
-const styles = {
+const styles = theme => ({
     card: {
         minWidth: '80%',
     },
@@ -35,7 +36,10 @@ const styles = {
     cardActionRight: {
         marginLeft: 'auto',
     },
-};
+    chip: {
+        margin: theme.spacing.unit,
+    },
+});
 
 class Post extends Component {
     state = {};
@@ -86,6 +90,10 @@ class Post extends Component {
                             }
                             action={
                                 <div>
+                                    <Chip
+                                        label={post.category}
+                                        className={classes.chip}
+                                        color="primary"/>
                                     <IconButton>
                                         <EditIcon/>
                                     </IconButton>
