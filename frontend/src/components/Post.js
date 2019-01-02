@@ -19,6 +19,8 @@ import {connect} from "react-redux";
 import {confirmAlert} from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import Chip from "@material-ui/core/Chip";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import Redirect from "react-router-dom/es/Redirect";
 
 const styles = theme => ({
     card: {
@@ -42,7 +44,7 @@ const styles = theme => ({
 });
 
 class Post extends Component {
-    state = {};
+    state = {toPostDetails: false};
 
     handleUpVoteClick = (e) => {
         e.preventDefault();
@@ -64,20 +66,43 @@ class Post extends Component {
                 {
                     label: 'Delete',
                     onClick: () => {
-                        const {dispatch, post} = this.props;
-                        dispatch(handleDeletePost(post))
+                        const {dispatch, post, onDeleteAction} = this.props;
+                        dispatch(handleDeletePost(post));
+                        if (onDeleteAction) {
+                            onDeleteAction();
+                        }
                     }
                 },
                 {
                     label: 'Cancel',
-                    onClick: () => {}
+                    onClick: () => {
+                    }
                 }
             ]
         })
     };
 
+    redirectPostDetails = () => {
+        this.setState({toPostDetails: true});
+    };
+
     render() {
         const {classes, post} = this.props;
+        const {toPostDetails} = this.state;
+
+        let disableTitleClick = false;
+        if (this.props.titleClickable !== undefined && this.props.titleClickable !== null) {
+            disableTitleClick = !this.props.titleClickable
+        }
+
+        if (post === null) {
+            return <p>This post doesn't exist</p>
+        }
+
+        if (toPostDetails === true) {
+            return <Redirect to={`/post/${post.id}`}/>
+        }
+
         return (
             <Grid item xs={12} className={classes.card}>
                 <Card>
@@ -105,9 +130,11 @@ class Post extends Component {
                             title={post.author}
                             subheader={new Date(post.timestamp).toLocaleString()}
                         />
-                        <Typography variant="h5" component="h2" className={classes.title}>
-                            {post.title}
-                        </Typography>
+                        <CardActionArea onClick={this.redirectPostDetails} disabled={disableTitleClick}>
+                            <Typography variant="h5" component="h2" className={classes.title}>
+                                {post.title}
+                            </Typography>
+                        </CardActionArea>
                     </CardContent>
                     <CardActions className={classes.actions} disableActionSpacing>
                         <IconButton onClick={this.handleUpVoteClick}>

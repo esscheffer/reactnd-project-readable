@@ -1,11 +1,26 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react'
 import '../App.css';
-
-import uuidv4 from "uuid/v4";
 import {handleInitialData} from "../actions/shared";
 import {connect} from "react-redux";
 import PostList from "./PostList";
 import LoadingBar from 'react-redux-loading'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
+import PostPage from "./PostPage";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import withStyles from "@material-ui/core/es/styles/withStyles";
+import Link from "react-router-dom/es/Link";
+
+const styles = {
+    toolbar: {
+        marginBottom: 16,
+    },
+    homeToolbarLink: {
+        textDecoration: 'none',
+        color: 'white'
+    }
+};
 
 class App extends Component {
     componentDidMount() {
@@ -13,23 +28,40 @@ class App extends Component {
     }
 
     render() {
-        console.log(uuidv4());
+        const {classes} = this.props;
 
         return (
-            <div>
-                <LoadingBar />
-                {this.props.loading === true
-                    ? null
-                    : <PostList />}
-            </div>
+            <Router>
+                <Fragment>
+                    <AppBar position="static" className={classes.toolbar}>
+                        <Toolbar>
+                            <Typography variant="h6" color="inherit">
+                                <Link to='/' className={classes.homeToolbarLink}>
+                                    Home
+                                </Link>
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                    <LoadingBar/>
+                    <div>
+                        {this.props.loading === true
+                            ? null
+                            : <div>
+                                <Route path='/' exact component={PostList}/>
+                                <Route path='/post/:id' exact component={PostPage}/>
+                            </div>
+                        }
+                    </div>
+                </Fragment>
+            </Router>
         );
     }
 }
 
-function mapStateToProps ({posts}) {
+function mapStateToProps({posts}) {
     return {
         loading: posts.postsList.loading
     }
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps)(withStyles(styles)(App));
