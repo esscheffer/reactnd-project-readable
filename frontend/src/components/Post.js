@@ -21,6 +21,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import Chip from "@material-ui/core/Chip";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import Redirect from "react-router-dom/es/Redirect";
+import Collapse from "@material-ui/core/Collapse";
 
 const styles = theme => ({
     card: {
@@ -44,7 +45,10 @@ const styles = theme => ({
 });
 
 class Post extends Component {
-    state = {toPostDetails: false};
+    state = {
+        toPostDetails: false,
+        expanded: this.props.expandBody || false
+    };
 
     handleUpVoteClick = (e) => {
         e.preventDefault();
@@ -154,6 +158,11 @@ class Post extends Component {
                             </IconButton>
                         </div>
                     </CardActions>
+                    <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                        <CardContent>
+                            <Typography paragraph>{post.body}</Typography>
+                        </CardContent>
+                    </Collapse>
                 </Card>
             </Grid>
         );

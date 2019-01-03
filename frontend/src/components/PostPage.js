@@ -33,7 +33,8 @@ class PostPage extends Component {
                       alignItems="center">
                     {this.props.post ? <Post post={this.props.post}
                                              titleClickable={false}
-                                             onDeleteAction={this.handlePostDelete}/>
+                                             onDeleteAction={this.handlePostDelete}
+                                             expandBody={true}/>
                         : <p>This post doesn't exist</p>}
                 </Grid>
             </div>
