@@ -62,9 +62,17 @@ class PostList extends Component {
     }
 }
 
-function mapStateToProps({posts}) {
+function mapStateToProps({posts}, props) {
+    const {category} = props.match.params;
+
+    let postsToShow = posts.postsList.posts;
+
+    if (category) {
+        postsToShow = postsToShow.filter((post) => post.category === category)
+    }
+
     return {
-        posts: posts.postsList.posts
+        posts: postsToShow
             .sort((a, b) => b.timestamp - a.timestamp)
     };
 }
