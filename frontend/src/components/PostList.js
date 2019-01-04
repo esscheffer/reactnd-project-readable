@@ -6,6 +6,7 @@ import NewPost from "./NewPost";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import withStyles from "@material-ui/core/es/styles/withStyles";
+import CategoriesTabs from "./CategoriesTabs";
 
 const styles = theme => ({
     fab: {
@@ -36,6 +37,7 @@ class PostList extends Component {
         const {classes} = this.props;
         return (
             <div>
+                <CategoriesTabs/>
                 <h3 style={{textAlign: 'center'}}>POSTS</h3>
 
                 {this.state.newPostFormOpen

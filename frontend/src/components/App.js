@@ -11,8 +11,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import Link from "react-router-dom/es/Link";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 
 const styles = {
     toolbar: {
@@ -25,17 +23,11 @@ const styles = {
 };
 
 class App extends Component {
-    state = {
-        value: 0
-    };
+    state = {};
 
     componentDidMount() {
         this.props.dispatch(handleInitialData())
     }
-
-    handleChange = (event, value) => {
-        this.setState({value});
-    };
 
     render() {
         const {classes} = this.props;
@@ -53,15 +45,6 @@ class App extends Component {
                         </Toolbar>
                     </AppBar>
                     <LoadingBar/>
-                    <Tabs value={this.state.value}
-                          indicatorColor="primary"
-                          textColor="primary"
-                          onChange={this.handleChange}>
-                        <Tab label="All"/>
-                        {this.props.categories.map((category) => (
-                            <Tab label={category.name}/>
-                        ))}
-                    </Tabs>
                     <div>
                         {this.props.loading === true
                             ? null
