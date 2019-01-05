@@ -50,7 +50,7 @@ class App extends Component {
                             ? null
                             : <div>
                                 <Route path='/' exact component={PostList}/>
-                                <Route path='/:category' component={PostList}/>
+                                <Route path='/:category' exact component={PostList}/>
                                 <Route path='/post/:id' exact component={PostPage}/>
                             </div>
                         }

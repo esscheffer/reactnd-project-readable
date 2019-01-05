@@ -5,8 +5,6 @@ import withStyles from "@material-ui/core/es/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import Redirect from "react-router-dom/es/Redirect";
 
-const styles = theme => ({});
-
 class PostPage extends Component {
     state = {
         toHome: false
@@ -34,7 +32,7 @@ class PostPage extends Component {
                     {this.props.post ? <Post post={this.props.post}
                                              titleClickable={false}
                                              onDeleteAction={this.handlePostDelete}
-                                             expandBody={true}/>
+                                             detailsPage={true}/>
                         : <p>This post doesn't exist</p>}
                 </Grid>
             </div>

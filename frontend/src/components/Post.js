@@ -12,8 +12,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from "@material-ui/core/IconButton";
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDowjnIcon from '@material-ui/icons/ThumbDown';
 import {handleDeletePost, handleDownVotePost, handleUpVotePost} from "../actions/posts";
 import {connect} from "react-redux";
 import {confirmAlert} from 'react-confirm-alert'; // Import
@@ -22,6 +20,7 @@ import Chip from "@material-ui/core/Chip";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import Redirect from "react-router-dom/es/Redirect";
 import Collapse from "@material-ui/core/Collapse";
+import Vote from "./Vote";
 
 const styles = theme => ({
     card: {
@@ -47,7 +46,7 @@ const styles = theme => ({
 class Post extends Component {
     state = {
         toPostDetails: false,
-        expanded: this.props.expandBody || false
+        detailsPage: this.props.detailsPage || false
     };
 
     handleUpVoteClick = (e) => {
@@ -92,7 +91,7 @@ class Post extends Component {
 
     render() {
         const {classes, post} = this.props;
-        const {toPostDetails} = this.state;
+        const {toPostDetails, detailsPage} = this.state;
 
         let disableTitleClick = false;
         if (this.props.titleClickable !== undefined && this.props.titleClickable !== null) {
@@ -123,9 +122,11 @@ class Post extends Component {
                                         label={post.category}
                                         className={classes.chip}
                                         color="primary"/>
-                                    <IconButton>
-                                        <EditIcon/>
-                                    </IconButton>
+                                    {detailsPage ?
+                                        <IconButton>
+                                            <EditIcon/>
+                                        </IconButton>
+                                        : null}
                                     <IconButton onClick={this.deleteButtonClick}>
                                         <DeleteIcon/>
                                     </IconButton>
@@ -141,24 +142,17 @@ class Post extends Component {
                         </CardActionArea>
                     </CardContent>
                     <CardActions className={classes.actions} disableActionSpacing>
-                        <IconButton onClick={this.handleUpVoteClick}>
-                            <ThumbUpIcon/>
-                        </IconButton>
-
-                        {post.voteScore}
-
-                        <IconButton onClick={this.handleDownVoteClick}>
-                            <ThumbDowjnIcon/>
-                        </IconButton>
-
+                        <Vote handleUpVoteClick={this.handleUpVoteClick}
+                              handleDownVoteClick={this.handleDownVoteClick}
+                              voteScore={post.voteScore}/>
                         <div className={classes.cardActionRight}>
                             {post.commentCount}
-                            <IconButton aria-label="Comments">
+                            <IconButton aria-label="Comments" disabled={true}>
                                 <ModeCommentIcon/>
                             </IconButton>
                         </div>
                     </CardActions>
-                    <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                    <Collapse in={detailsPage} timeout="auto" unmountOnExit>
                         <CardContent>
                             <Typography paragraph>{post.body}</Typography>
                         </CardContent>
