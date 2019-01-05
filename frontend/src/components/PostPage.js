@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Post from "./Post";
 import {connect} from "react-redux";
-import withStyles from "@material-ui/core/es/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import Redirect from "react-router-dom/es/Redirect";
 
@@ -51,4 +50,4 @@ function mapStateToProps({posts}, props) {
     };
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(PostPage))
+export default connect(mapStateToProps)(PostPage)
