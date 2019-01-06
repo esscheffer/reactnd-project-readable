@@ -7,6 +7,9 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import CategoriesTabs from "./CategoriesTabs";
+import {sortFunction} from "../utils/SortUtils";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 const styles = theme => ({
     fab: {
@@ -18,7 +21,8 @@ const styles = theme => ({
 
 class PostList extends Component {
     state = {
-        newPostFormOpen: false
+        newPostFormOpen: false,
+        postsSort: "timestamp"
     };
 
     openNewPostForm = event => {
@@ -31,6 +35,10 @@ class PostList extends Component {
             event.preventDefault();
         }
         this.setState({newPostFormOpen: false});
+    };
+
+    handleSortChange = (event, postsSort) => {
+        this.setState({postsSort});
     };
 
     render() {
@@ -49,13 +57,26 @@ class PostList extends Component {
                     </div>
                 }
 
+                <Tabs value={this.state.postsSort}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      onChange={this.handleSortChange}
+                      centered={true}>
+                    <Tab key="timestamp"
+                         value='timestamp'
+                         label="New"/>
+                    <Tab key="voteScore"
+                         value='voteScore'
+                         label="Hot"/>
+                </Tabs>
+
                 <Grid container
                       direction="column"
                       justify="space-between"
                       spacing={16}
                       style={{minWidth: '100%'}}
                       alignItems="center">
-                    {this.props.posts.map((post) => (
+                    {this.props.posts.sort(sortFunction(this.state.postsSort)).map((post) => (
                         <Post key={post.id} post={post}/>
                     ))}
                 </Grid>
@@ -75,7 +96,6 @@ function mapStateToProps({posts}, props) {
 
     return {
         posts: postsToShow
-            .sort((a, b) => b.timestamp - a.timestamp)
     };
 }
 

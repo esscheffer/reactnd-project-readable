@@ -12,12 +12,10 @@ class CategoriesTabs extends Component {
     state = {};
 
     render() {
-        console.log("CategoriesTabs", this.props);
         return (
             <Tabs value={this.props.category}
                   indicatorColor="primary"
                   textColor="primary"
-                  onChange={this.handleChange}
                   centered={true}>
                 <Tab key="all"
                      value='all'

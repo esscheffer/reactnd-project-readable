@@ -6,10 +6,11 @@ import Redirect from "react-router-dom/es/Redirect";
 import {handleGetComments} from "../actions/comments";
 import Comment from "./Comment";
 import Divider from "@material-ui/core/Divider";
+import {sortFunction} from "../utils/SortUtils";
 
 class PostPage extends Component {
     state = {
-        toHome: false
+        toHome: false,
     };
 
     handlePostDelete = () => {
@@ -72,7 +73,7 @@ function mapStateToProps({posts, comments}, props) {
         post: posts.postsList.posts.find(function (post) {
             return post.id === id;
         }),
-        comments: comments.comments
+        comments: comments.comments ? comments.comments.sort(sortFunction("timestamp")) : []
     };
 }
 
