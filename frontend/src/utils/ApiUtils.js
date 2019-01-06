@@ -70,3 +70,28 @@ export function createPostServer(post) {
         body: JSON.stringify(post),
     }).then((response) => response.json())
 }
+
+export function getPostComments(postId) {
+    return fetch(`${baseurl}/posts/${postId}/comments`, {headers}).then((response) => {
+        if (!response.ok) {
+            throw Error(response.statusText)
+        }
+        return response
+    }).then((response) => response.json())
+}
+
+function saveVoteComment(postId, vote) {
+    return fetch(`${baseurl}/comments/${postId}`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({option: vote}),
+    }).then((response) => response.json())
+}
+
+export function saveUpVoteComment(commentId) {
+    return saveVoteComment(commentId, "upVote")
+}
+
+export function saveDownVoteComment(commentId) {
+    return saveVoteComment(commentId, "downVote")
+}
