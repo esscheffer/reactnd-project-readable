@@ -71,6 +71,14 @@ export function createPostServer(post) {
     }).then((response) => response.json())
 }
 
+export function editPostServer(post) {
+    return fetch(`${baseurl}/posts/${post.id}`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(post),
+    }).then((response) => response.json())
+}
+
 export function getPostComments(postId) {
     return fetch(`${baseurl}/posts/${postId}/comments`, {headers}).then((response) => {
         if (!response.ok) {

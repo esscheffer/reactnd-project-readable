@@ -1,21 +1,14 @@
 import React, {Component} from 'react';
-import Post from "./Post";
 import {connect} from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import Redirect from "react-router-dom/es/Redirect";
 import {handleGetComments} from "../actions/comments";
 import Comment from "./Comment";
 import Divider from "@material-ui/core/Divider";
 import {sortFunction} from "../utils/SortUtils";
+import PostFormContainer from "./PostFormContainer";
 
 class PostPage extends Component {
-    state = {
-        toHome: false,
-    };
-
-    handlePostDelete = () => {
-        this.setState({toHome: true});
-    };
+    state = {};
 
     componentDidMount() {
         if (this.props.post) {
@@ -24,12 +17,6 @@ class PostPage extends Component {
     }
 
     render() {
-        const {toHome} = this.state;
-
-        if (toHome === true) {
-            return <Redirect to={`/`}/>
-        }
-
         return (
             <div>
                 <Grid container
@@ -38,11 +25,9 @@ class PostPage extends Component {
                       spacing={16}
                       style={{width: '100%', marginBottom: 8}}
                       alignItems="center">
-                    {this.props.post ? <Post post={this.props.post}
-                                             titleClickable={false}
-                                             onDeleteAction={this.handlePostDelete}
-                                             detailsPage={true}/>
-                        : <p>This post doesn't exist</p>}
+                    {this.props.post ? <PostFormContainer post={this.props.post}/>
+                        : <p>This post doesn't exist</p>
+                    }
                 </Grid>
 
                 <Divider style={{marginTop: '8dp'}}/>

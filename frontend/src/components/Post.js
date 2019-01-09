@@ -124,7 +124,7 @@ class Post extends Component {
                                         color="primary"/>
                                     {detailsPage ?
                                         <IconButton>
-                                            <EditIcon/>
+                                            <EditIcon onClick={this.props.editAction}/>
                                         </IconButton>
                                         : null}
                                     <IconButton onClick={this.deleteButtonClick}>

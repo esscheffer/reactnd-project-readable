@@ -1,4 +1,4 @@
-import {createPostServer, deletePostServer, saveDownVotePost, saveUpVotePost} from "../utils/ApiUtils";
+import {createPostServer, deletePostServer, editPostServer, saveDownVotePost, saveUpVotePost} from "../utils/ApiUtils";
 
 export const SET_POSTS = 'SET_POSTS';
 export const FETCHING_POSTS = 'FETCHING_POSTS';
@@ -6,6 +6,7 @@ export const UPVOTE_POST = 'UPVOTE_POST';
 export const DOWNVOTE_POST = 'DOWNVOTE_POST';
 export const ADD_POST = 'ADD_POST';
 export const REMOVE_POST = 'REMOVE_POST';
+export const EDIT_POST = 'EDIT_POST';
 
 export function setPosts(posts) {
     return {
@@ -45,6 +46,13 @@ function addPost(post) {
     return {
         type: ADD_POST,
         post
+    }
+}
+
+function editPost(postUpdate) {
+    return {
+        type: EDIT_POST,
+        postUpdate
     }
 }
 
@@ -96,6 +104,19 @@ export function handleCreatePost(post) {
                 console.warn('Error in handleCreatePost: ', e);
                 dispatch(removePost(post));
                 alert('The was an error creating the post. Try again.')
+            })
+    }
+}
+
+export function handleEditPost(postUpdate, oldPost) {
+    return (dispatch) => {
+        dispatch(editPost(postUpdate));
+
+        return editPostServer(postUpdate)
+            .catch((e) => {
+                console.warn('Error in handleEditPost: ', e);
+                dispatch(editPost(oldPost));
+                alert('The was an error editing the post. Try again.')
             })
     }
 }

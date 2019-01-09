@@ -1,4 +1,12 @@
-import {ADD_POST, DOWNVOTE_POST, FETCHING_POSTS, REMOVE_POST, SET_POSTS, UPVOTE_POST} from "../actions/posts";
+import {
+    ADD_POST,
+    DOWNVOTE_POST,
+    EDIT_POST,
+    FETCHING_POSTS,
+    REMOVE_POST,
+    SET_POSTS,
+    UPVOTE_POST
+} from "../actions/posts";
 
 const INITIAL_STATE = {
     postsList: {posts: [], loading: false}
@@ -56,6 +64,18 @@ export default function posts(state = INITIAL_STATE, action) {
                 postsList: {
                     ...state.postsList,
                     posts: newArray
+                }
+            };
+        case EDIT_POST:
+            return {
+                ...state,
+                postsList: {
+                    ...state.postsList,
+                    posts: state.postsList.posts.map(
+                        (post) => post.id === action.postUpdate.id ? {
+                            ...post, title: action.postUpdate.title, body: action.postUpdate.body
+                        } : post
+                    )
                 }
             };
         default:
