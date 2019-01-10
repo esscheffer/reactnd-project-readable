@@ -6,9 +6,21 @@ import Comment from "./Comment";
 import Divider from "@material-ui/core/Divider";
 import {sortFunction} from "../utils/SortUtils";
 import PostFormContainer from "./PostFormContainer";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from '@material-ui/icons/Add';
+import withStyles from "@material-ui/core/es/styles/withStyles";
+import NewComment from "./NewComment";
+
+const styles = theme => ({
+    fab: {
+        margin: theme.spacing.unit,
+        width: '100%',
+        textAlign: 'center'
+    }
+});
 
 class PostPage extends Component {
-    state = {};
+    state = {newCommentFormOpen: false};
 
     componentDidMount() {
         if (this.props.post) {
@@ -16,7 +28,21 @@ class PostPage extends Component {
         }
     }
 
+    closeNewCommentForm = event => {
+        if (event) {
+            event.preventDefault();
+        }
+        this.setState({newCommentFormOpen: false});
+    };
+
+    openNewCommentForm = event => {
+        event.preventDefault();
+        this.setState({newCommentFormOpen: true});
+    };
+
     render() {
+        const {classes, post} = this.props;
+
         return (
             <div>
                 <Grid container
@@ -25,7 +51,7 @@ class PostPage extends Component {
                       spacing={16}
                       style={{width: '100%', marginBottom: 8}}
                       alignItems="center">
-                    {this.props.post ? <PostFormContainer post={this.props.post}/>
+                    {post ? <PostFormContainer post={post}/>
                         : <p>This post doesn't exist</p>
                     }
                 </Grid>
@@ -33,6 +59,16 @@ class PostPage extends Component {
                 <Divider style={{marginTop: '8dp'}}/>
 
                 <h3 style={{textAlign: 'center'}}>COMMENTS</h3>
+
+                {this.state.newCommentFormOpen
+                    ? <NewComment handleClose={this.closeNewCommentForm} postId={post.id}/>
+                    : <div className={classes.fab}>
+                        <Fab color="primary" aria-label="Add" onClick={this.openNewCommentForm}>
+                            <AddIcon/>
+                        </Fab>
+                    </div>
+                }
+
                 <Grid container
                       direction="column"
                       justify="space-between"
@@ -62,4 +98,4 @@ function mapStateToProps({posts, comments}, props) {
     };
 }
 
-export default connect(mapStateToProps)(PostPage)
+export default connect(mapStateToProps)(withStyles(styles)(PostPage))

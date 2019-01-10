@@ -103,3 +103,11 @@ export function saveUpVoteComment(commentId) {
 export function saveDownVoteComment(commentId) {
     return saveVoteComment(commentId, "downVote")
 }
+
+export function createCommentServer(comment) {
+    return fetch(`${baseurl}/comments/`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(comment),
+    }).then((response) => response.json())
+}
