@@ -10,6 +10,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import NewComment from "./NewComment";
+import PostNotFoundPage from "./PostNotFoundPage";
 
 const styles = theme => ({
     fab: {
@@ -52,7 +53,7 @@ class PostPage extends Component {
                       style={{width: '100%', marginBottom: 8}}
                       alignItems="center">
                     {post ? <PostFormContainer post={post}/>
-                        : <p>This post doesn't exist</p>
+                        : <PostNotFoundPage/>
                     }
                 </Grid>
 
