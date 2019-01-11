@@ -46,42 +46,47 @@ class PostPage extends Component {
 
         return (
             <div>
-                <Grid container
-                      direction="column"
-                      justify="space-between"
-                      spacing={16}
-                      style={{width: '100%', marginBottom: 8}}
-                      alignItems="center">
-                    {post ? <PostFormContainer post={post}/>
-                        : <PostNotFoundPage/>
-                    }
-                </Grid>
+                {post ? <div>
+                        <Grid container
+                              direction="column"
+                              justify="space-between"
+                              spacing={16}
+                              style={{width: '100%', marginBottom: 8}}
+                              alignItems="center">
+                            {post ? <PostFormContainer post={post}/>
+                                : <PostNotFoundPage/>
+                            }
+                        </Grid>
 
-                <Divider style={{marginTop: '8dp'}}/>
+                        <Divider style={{marginTop: '8dp'}}/>
 
-                <h3 style={{textAlign: 'center'}}>COMMENTS</h3>
+                        <h3 style={{textAlign: 'center'}}>COMMENTS</h3>
 
-                {this.state.newCommentFormOpen
-                    ? <NewComment handleClose={this.closeNewCommentForm} postId={post.id}/>
-                    : <div className={classes.fab}>
-                        <Fab color="primary" aria-label="Add" onClick={this.openNewCommentForm}>
-                            <AddIcon/>
-                        </Fab>
+                        {this.state.newCommentFormOpen
+                            ? <NewComment handleClose={this.closeNewCommentForm} postId={post.id}/>
+                            : <div className={classes.fab}>
+                                <Fab color="primary" aria-label="Add" onClick={this.openNewCommentForm}>
+                                    <AddIcon/>
+                                </Fab>
+                            </div>
+                        }
+
+                        <Grid container
+                              direction="column"
+                              justify="space-between"
+                              spacing={16}
+                              style={{width: '100%'}}
+                              alignItems="center">
+                            {this.props.comments ?
+                                this.props.comments.map((comment) => (
+                                    <Comment key={comment.id} comment={comment}/>
+                                ))
+                                : null}
+                        </Grid>
                     </div>
+                    : <PostNotFoundPage/>
                 }
 
-                <Grid container
-                      direction="column"
-                      justify="space-between"
-                      spacing={16}
-                      style={{width: '100%'}}
-                      alignItems="center">
-                    {this.props.comments ?
-                        this.props.comments.map((comment) => (
-                            <Comment key={comment.id} comment={comment}/>
-                        ))
-                        : null}
-                </Grid>
             </div>
         );
     }
