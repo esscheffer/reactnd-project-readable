@@ -12,8 +12,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Vote from "./Vote";
-import {handleDownVoteComment, handleUpVoteComment} from "../actions/comments";
+import {handleDeleteComment, handleDownVoteComment, handleUpVoteComment} from "../actions/comments";
 import {connect} from "react-redux";
+import {confirmAlert} from "react-confirm-alert";
 
 const styles = theme => ({
     card: {
@@ -46,6 +47,27 @@ class Comment extends Component {
         e.preventDefault();
         const {dispatch, comment} = this.props;
         dispatch(handleDownVoteComment(comment))
+    };
+
+    deleteButtonClick = () => {
+        confirmAlert({
+            title: 'Confirm delete',
+            message: 'Are you sure you want to delete this comment?',
+            buttons: [
+                {
+                    label: 'Delete',
+                    onClick: () => {
+                        const {dispatch, comment} = this.props;
+                        dispatch(handleDeleteComment(comment));
+                    }
+                },
+                {
+                    label: 'Cancel',
+                    onClick: () => {
+                    }
+                }
+            ]
+        })
     };
 
     render() {

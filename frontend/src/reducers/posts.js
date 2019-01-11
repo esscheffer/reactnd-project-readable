@@ -3,6 +3,8 @@ import {
     DOWNVOTE_POST,
     EDIT_POST,
     FETCHING_POSTS,
+    POST_COUNT_DOWN,
+    POST_COUNT_UP,
     REMOVE_POST,
     SET_POSTS,
     UPVOTE_POST
@@ -74,6 +76,30 @@ export default function posts(state = INITIAL_STATE, action) {
                     posts: state.postsList.posts.map(
                         (post) => post.id === action.postUpdate.id ? {
                             ...post, title: action.postUpdate.title, body: action.postUpdate.body
+                        } : post
+                    )
+                }
+            };
+        case  POST_COUNT_UP:
+            return {
+                ...state,
+                postsList: {
+                    ...state.postsList,
+                    posts: state.postsList.posts.map(
+                        (post) => post.id === action.postId ? {
+                            ...post, commentCount: post.commentCount + 1
+                        } : post
+                    )
+                }
+            };
+        case POST_COUNT_DOWN:
+            return {
+                ...state,
+                postsList: {
+                    ...state.postsList,
+                    posts: state.postsList.posts.map(
+                        (post) => post.id === action.postId ? {
+                            ...post, commentCount: post.commentCount - 1
                         } : post
                     )
                 }

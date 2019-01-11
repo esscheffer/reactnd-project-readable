@@ -7,6 +7,8 @@ export const DOWNVOTE_POST = 'DOWNVOTE_POST';
 export const ADD_POST = 'ADD_POST';
 export const REMOVE_POST = 'REMOVE_POST';
 export const EDIT_POST = 'EDIT_POST';
+export const POST_COUNT_DOWN = 'POST_COUNT_DOWN';
+export const POST_COUNT_UP = 'POST_COUNT_UP';
 
 export function setPosts(posts) {
     return {
@@ -53,6 +55,20 @@ function editPost(postUpdate) {
     return {
         type: EDIT_POST,
         postUpdate
+    }
+}
+
+export function commentCountDown(postId) {
+    return {
+        type: POST_COUNT_DOWN,
+        postId
+    }
+}
+
+export function commentCountUp(postId) {
+    return {
+        type: POST_COUNT_UP,
+        postId
     }
 }
 

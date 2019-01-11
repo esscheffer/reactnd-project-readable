@@ -111,3 +111,10 @@ export function createCommentServer(comment) {
         body: JSON.stringify(comment),
     }).then((response) => response.json())
 }
+
+export function deleteCommentServer(commentId) {
+    return fetch(`${baseurl}/comments/${commentId}`, {
+        method: "DELETE",
+        headers,
+    }).then((response) => response.json())
+}

@@ -1,5 +1,12 @@
 import {hideLoading, showLoading} from "react-redux-loading";
-import {createCommentServer, getPostComments, saveDownVoteComment, saveUpVoteComment} from "../utils/ApiUtils";
+import {
+    createCommentServer,
+    deleteCommentServer,
+    getPostComments,
+    saveDownVoteComment,
+    saveUpVoteComment
+} from "../utils/ApiUtils";
+import {commentCountDown, commentCountUp} from "./posts";
 
 export const SET_COMMENTS = 'SET_COMMENTS';
 export const UPVOTE_COMMENT = 'UPVOTE_COMMENT';
@@ -81,12 +88,29 @@ export function handleDownVoteComment(comment) {
 export function handleCreateComment(comment) {
     return (dispatch) => {
         dispatch(addComment(comment));
+        dispatch(commentCountUp(comment.parentId));
 
         return createCommentServer(comment)
             .catch((e) => {
-                console.warn('Error in handleCreatePost: ', e);
+                console.warn('Error in handleCreateComment: ', e);
                 dispatch(removeComment(comment));
-                alert('The was an error creating the post. Try again.')
+                dispatch(commentCountDown(comment.parentId));
+                alert('The was an error creating the comment. Try again.')
+            })
+    }
+}
+
+export function handleDeleteComment(comment) {
+    return (dispatch) => {
+        dispatch(removeComment(comment));
+        dispatch(commentCountDown(comment.parentId));
+
+        return deleteCommentServer(comment.id)
+            .catch((e) => {
+                console.warn('Error in handleDeleteComment: ', e);
+                dispatch(removeComment(comment));
+                dispatch(commentCountUp(comment.parentId));
+                alert('The was an error deleting the comment. Try again.')
             })
     }
 }
