@@ -1,4 +1,11 @@
-import {ADD_COMMENT, DOWNVOTE_COMMENT, REMOVE_COMMENT, SET_COMMENTS, UPVOTE_COMMENT} from "../actions/comments";
+import {
+    ADD_COMMENT,
+    DOWNVOTE_COMMENT,
+    EDIT_COMMENT,
+    REMOVE_COMMENT,
+    SET_COMMENTS,
+    UPVOTE_COMMENT
+} from "../actions/comments";
 
 export default function comments(state = {}, action) {
     switch (action.type) {
@@ -32,6 +39,13 @@ export default function comments(state = {}, action) {
             return {
                 ...state,
                 comments: newArray
+            };
+        case EDIT_COMMENT:
+            return {
+                ...state,
+                comments: state.comments.map(comment => comment.id === action.commentUpdate.id ? {
+                    ...comment, body: action.commentUpdate.body, timestamp: action.commentUpdate.timestamp
+                } : comment)
             };
         default:
             return state;

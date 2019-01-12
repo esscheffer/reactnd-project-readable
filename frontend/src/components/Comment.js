@@ -28,10 +28,7 @@ const styles = theme => ({
     },
     cardActionRight: {
         marginLeft: 'auto',
-    },
-    chip: {
-        margin: theme.spacing.unit,
-    },
+    }
 });
 
 class Comment extends Component {
@@ -84,7 +81,7 @@ class Comment extends Component {
                             }
                             action={
                                 <div>
-                                    <IconButton>
+                                    <IconButton onClick={this.props.editAction}>
                                         <EditIcon/>
                                     </IconButton>
                                     <IconButton onClick={this.deleteButtonClick}>

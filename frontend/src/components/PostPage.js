@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import {handleGetComments} from "../actions/comments";
-import Comment from "./Comment";
 import Divider from "@material-ui/core/Divider";
 import {sortFunction} from "../utils/SortUtils";
 import PostFormContainer from "./PostFormContainer";
@@ -11,6 +10,7 @@ import AddIcon from '@material-ui/icons/Add';
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import NewComment from "./NewComment";
 import PostNotFoundPage from "./PostNotFoundPage";
+import CommentFormContainer from "./CommentFormContainer";
 
 const styles = theme => ({
     fab: {
@@ -79,7 +79,7 @@ class PostPage extends Component {
                               alignItems="center">
                             {this.props.comments ?
                                 this.props.comments.map((comment) => (
-                                    <Comment key={comment.id} comment={comment}/>
+                                    <CommentFormContainer key={comment.id} comment={comment}/>
                                 ))
                                 : null}
                         </Grid>

@@ -2,6 +2,7 @@ import {hideLoading, showLoading} from "react-redux-loading";
 import {
     createCommentServer,
     deleteCommentServer,
+    editCommentServer,
     getPostComments,
     saveDownVoteComment,
     saveUpVoteComment
@@ -13,6 +14,7 @@ export const UPVOTE_COMMENT = 'UPVOTE_COMMENT';
 export const DOWNVOTE_COMMENT = 'DOWNVOTE_COMMENT';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const REMOVE_COMMENT = 'REMOVE_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
 
 function setComments(comments) {
     return {
@@ -46,6 +48,13 @@ function addComment(comment) {
     return {
         type: ADD_COMMENT,
         comment
+    }
+}
+
+function editComment(commentUpdate) {
+    return {
+        type: EDIT_COMMENT,
+        commentUpdate
     }
 }
 
@@ -111,6 +120,19 @@ export function handleDeleteComment(comment) {
                 dispatch(removeComment(comment));
                 dispatch(commentCountUp(comment.parentId));
                 alert('The was an error deleting the comment. Try again.')
+            })
+    }
+}
+
+export function handleEditComment(commentUpdate, oldComment) {
+    return (dispatch) => {
+        dispatch(editComment(commentUpdate));
+
+        return editCommentServer(commentUpdate)
+            .catch((e) => {
+                console.warn('Error in handleEditPost: ', e);
+                dispatch(editComment(oldComment));
+                alert('The was an error editing the post. Try again.')
             })
     }
 }

@@ -118,3 +118,11 @@ export function deleteCommentServer(commentId) {
         headers,
     }).then((response) => response.json())
 }
+
+export function editCommentServer(comment) {
+    return fetch(`${baseurl}/comments/${comment.id}`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({body: comment.body, timestamp: comment.timestamp}),
+    }).then((response) => response.json())
+}
