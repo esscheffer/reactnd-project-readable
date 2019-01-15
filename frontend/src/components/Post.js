@@ -103,7 +103,7 @@ class Post extends Component {
         }
 
         if (toPostDetails === true) {
-            return <Redirect to={`/post/${post.id}`}/>
+            return <Redirect to={`/${post.category}/${post.id}`}/>
         }
 
         return (

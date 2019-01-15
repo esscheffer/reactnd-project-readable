@@ -76,7 +76,7 @@ class PostList extends Component {
                       spacing={16}
                       style={{minWidth: '100%'}}
                       alignItems="center">
-                    {this.props.posts.sort(sortFunction(this.state.postsSort)).map((post) => (
+                    {this.props.posts.slice().sort(sortFunction(this.state.postsSort)).map((post) => (
                         <Post key={post.id} post={post}/>
                     ))}
                 </Grid>

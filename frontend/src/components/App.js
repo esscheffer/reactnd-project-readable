@@ -51,7 +51,7 @@ class App extends Component {
                             : <div>
                                 <Route path='/' exact component={PostList}/>
                                 <Route path='/:category' exact component={PostList}/>
-                                <Route path='/post/:id' exact component={PostPage}/>
+                                <Route path='/:category/:id' exact component={PostPage}/>
                             </div>
                         }
                     </div>
